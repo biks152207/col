@@ -1,0 +1,136 @@
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      Calendar
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active">Calendar</li>
+    </ol>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="col-md-3" ng-if="!showEvent">
+      <div class="box box-solid">
+        <div class="box-header with-border">
+          <h3 class="box-title">Add Event</h3>
+        </div>
+        <div class="box-body">
+          <input type="text" ng-model="currentEvent.title" class="form-control" placeholder="Enter name of the event" required/>
+        </div>
+      </div>
+      <div class="box box-solid">
+        <div class="box-header with-border">
+          <h3 class="box-title">Start Date</h3>
+        </div>
+        <div class="box-body">
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fa fa-clock-o"></i>
+            </div>
+            <input type="datetime-local" ng-model="currentEvent.start" class="form-control active" style="width:73%;" id="reservationtime" required>
+          </div>
+        </div>
+      </div>
+      <div class="box box-solid">
+        <div class="box-header with-border">
+          <h3 class="box-title">End Date</h3>
+        </div>
+        <div class="box-body">
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fa fa-clock-o"></i>
+            </div>
+            <input type="datetime-local" ng-model="currentEvent.end" class="form-control active" style="width:73%;" id="reservationtime">
+          </div>
+        </div>
+      </div>
+      <div class="box box-solid">
+        <div class="box-header with-border">
+          <h3 class="box-title">Label</h3>
+        </div>
+        <div class="box-body">
+          <ul class="fc-color-picker" id="color-chooser">
+            <li ng-click="currentEvent.color='blue'"><a class="text-blue"><i class="fa fa-square"></i></a></li>
+            <li ng-click="currentEvent.color='teal'"><a class="text-teal"><i class="fa fa-square"></i></a></li>
+            <li ng-click="currentEvent.color='yellow'"><a class="text-yellow"><i class="fa fa-square"></i></a></li>
+            <li ng-click="currentEvent.color='orange'"><a class="text-orange"><i class="fa fa-square"></i></a></li>
+            <li ng-click="currentEvent.color='green'"><a class="text-green"><i class="fa fa-square"></i></a></li>
+            <li ng-click="currentEvent.color='red'"><a class="text-red"><i class="fa fa-square"></i></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="box box-solid">
+        <div class="box-header with-border">
+          <h3 class="box-title">Invite Members</h3>
+        </div>
+        <div class="box-body">
+          <input type="text" class="form-control" ng-click="suggest = !suggest" ng-model="name">
+          <div style="max-height:200px;overflow:auto;" ng-if="suggest">
+            <ul class="list-group">
+              <li class="list-group-item" ng-if="member._id != config.userid" ng-repeat="member in members | filter:name">{{member.name}} <span class="fa fa-plus-circle pull-right" ng-click="addMember(member);suggest = !suggest;"></span></li>
+            </ul>
+          </div>
+          <ul class="list-group" ng-if="currentEvent.members" style="margin-top:20px;">
+            <li class="list-group-item"  ng-repeat="member in currentEvent.members">{{member.name}}<span class="fa fa-minus-circle pull-right" ng-click="removeMember(member)"></span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="box box-solid">
+        <div class="box-body">
+          <button id="add-new-event" type="submit" class="btn btn-primary btn-flat btn-block" style="border-color: rgb(0, 115, 183);" ng-click="addEvent()">Add</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3" ng-if="showEvent">
+      <div class="box box-solid">
+        <div class="box-header with-border">
+          <!--h3 class="box-title">Name of the Event</h3-->
+          <input type="text" class="form-control" ng-model="currentEvent.title" />
+        </div>
+      </div>
+      <div class="box box-solid">
+        <div class="box-header with-border">
+          <h3 class="box-title">Label</h3>
+        </div>
+        <div class="box-body">
+          <ul class="fc-color-picker" id="color-chooser">
+            <li ng-click="currentEvent.color='blue'"><a class="text-blue"><i class="fa fa-square"></i></a></li>
+            <li ng-click="currentEvent.color='teal'"><a class="text-teal"><i class="fa fa-square"></i></a></li>
+            <li ng-click="currentEvent.color='yellow'"><a class="text-yellow"><i class="fa fa-square"></i></a></li>
+            <li ng-click="currentEvent.color='orange'"><a class="text-orange"><i class="fa fa-square"></i></a></li>
+            <li ng-click="currentEvent.color='green'"><a class="text-green"><i class="fa fa-square"></i></a></li>
+            <li ng-click="currentEvent.color='red'"><a class="text-red"><i class="fa fa-square"></i></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="box box-solid">
+        <div class="box-header with-border">
+          <h3 class="box-title">Invite Members</h3>
+        </div>
+        <div class="box-body">
+          <input type="text" class="form-control" ng-click="suggest = !suggest" ng-model="name">
+          <div style="max-height:200px;overflow:auto;" ng-if="suggest">
+            <ul class="list-group">
+              <li class="list-group-item" ng-if="member._id != config.userid" ng-repeat="member in members | filter:name">{{member.name}} <span class="fa fa-plus-circle pull-right" ng-click="addMember(member)"></span></li>
+            </ul>
+          </div>
+          <ul class="list-group" ng-if="currentEvent.members" style="margin-top:20px;">
+            <li class="list-group-item"  ng-repeat="member in currentEvent.members">{{member.name}}<span class="fa fa-minus-circle pull-right" ng-click="removeMember(member)"></span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="box box-solid">
+        <div class="box-body">
+          <button id="add-new-event" type="button" class="btn btn-success btn-flat" style="border-color: rgb(0, 115, 183);" ng-click="cancelEvent()">Cancel</button>
+          <button id="add-new-event" type="button" class="btn btn-primary btn-flat" style="border-color: rgb(0, 115, 183);" ng-click="updateEvent(currentEvent)">Update</button>
+          <button id="add-new-event" type="button" class="btn btn-danger btn-flat" style="border-color: rgb(0, 115, 183);" ng-click="deleteEvent(currentEvent)">Delete</button>
+        </div>
+      </div>
+    </div>
+    <div ui-calendar="uiConfig.calendar" class="calendar col-md-9" style="background:white;" ng-model="eventSources"></div> 
+    
+  </section><!-- /.content -->
+</div><!-- /.content-wrapper -->

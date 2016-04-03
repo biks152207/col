@@ -1,0 +1,92 @@
+@import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic);
+body{
+	background-color: #ECF0F5;
+	color:white;
+	font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+}
+h1,h2,h3,h4,h5,h6{
+	font-family: 'Source Sans Pro', sans-serif
+}
+.btn-flat{
+	border-radius: 0;
+
+}
+.form-control{
+	border-radius: 0;
+}
+.main-header{
+	text-align: center;
+	background-color:#3c8dbc;
+	min-height: 50px;
+	padding-top: 20px;
+	padding-bottom:20px;
+}
+.logo{
+	color:white;
+	vertical-align: middle;
+	font-size: 30px;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.login-section{
+	min-height:500px;
+	background-color: #3c8dbc;
+	padding-top:100px;
+}
+.box{
+	color:black;
+	background: white;
+	min-height:200px;
+	border-top: 5px solid #666;
+}
+.box-heading{
+	padding:10px;
+	color: #444;
+	display: block;
+	text-align: center;
+	background: #ECF0F5;
+}
+.box-heading-login{
+	
+    width: 15%;
+    left: 43%;
+    top: -19px !important;
+    bottom: 0%;
+    border: 3px solid #666;
+    position: relative;
+
+}
+.box-heading h3{
+	font-size: 18px;
+	margin:0;
+	line-height: 1;
+}
+.box-body{
+	margin-top:20px;
+}
+.box-body label{
+	font-weight: 500;
+}
+.box-body .row{
+	margin:10px;
+}
+.register-section{
+	margin:50px;
+}
+.box-register{
+	border: 1px solid rgba(0,0,0,0.1);
+	background: none;
+}
+.box-heading-blue{
+	background-color: #3c8dbc;
+}
+.box-heading-register{
+
+    width: 15%;
+    left: 43%;
+    top: -19px !important;
+    bottom: 0%;
+    border: 1px solid rgba(0,0,0,0.1);
+    position: relative;
+
+}

@@ -1,0 +1,73 @@
+<div class="content-wrapper">
+	<section class="content-header">
+      <h1>
+        Chat
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Chat</li>
+      </ol>
+    </section>
+    <section class="content">
+    	<div class="col-md-5">
+    		<div class="box box-primary">
+          <div class="box-header">
+            <h3 class="box-title">Members Online</h3>
+            <div class="input-group" class="pull-right">
+              <input type="text" name="q" class="form-control" placeholder="Search..." ng-model="searchOnlineUser">
+              <span class="input-group-btn">
+                <button class="btn btn-flat"><i class="fa fa-search"></i></button>
+              </span>
+            </div>
+          </div>
+          <div class="box-body" style="max-height:500px;overflow:auto;">
+            <ul class="list-group">
+              <li class="list-group-item" ng-if="user.userid != config.userid" ng-repeat="user in $parent.participants | filter:searchOnlineUser" style="overflow:hidden;cursor:pointer;" ng-click="startChat(user)"><img src="{{config.basePath}}dist/img/user2-160x160.jpg" style="height:50px;width:50px;margin-right:50px;border-radius:100%;float:left;" /><h5>{{user.name}}<span id="btn_new_{{user.username}}" class="btn btn-sm btn-primary pull-right" style="display:none;">new</span></h5></li>
+            </ul>
+          </div>
+        </div>
+        <div class="box box-primary">
+          <div class="box-header">
+            <h3 class="box-title">All Members</h3>
+            <div class="input-group" class="pull-right">
+              <input type="text" name="q" class="form-control" placeholder="Search..." ng-model="searchAllUser">
+              <span class="input-group-btn">
+                <button class="btn btn-flat"><i class="fa fa-search"></i></button>
+              </span>
+            </div>
+          </div>
+          <div class="box-body" style="max-height:500px;overflow:auto;">
+            <ul class="list-group">
+              <li class="list-group-item" ng-if="user._id != config.userid" ng-repeat="user in users | filter:searchAllUser" style="overflow:hidden;cursor:pointer;" ng-click="startChat(user)"><img src="{{config.basePath}}dist/img/user2-160x160.jpg" style="height:50px;width:50px;margin-right:50px;border-radius:100%;float:left;" /><h5>{{user.name}}<span id="btn_new_{{user.username}}" class="btn btn-sm btn-primary pull-right" style="display:none;">new</span></h5></li>
+            </ul>
+          </div>
+        </div>
+    	</div>
+    	<div class="col-md-7">
+    		<div class="box box-primary" ng-if="isChat">
+          <div class="box-header">
+            <h3 class="box-title">{{chat.to_name}},{{chat.from_name}}</h3>
+          </div>
+          <div class="box-body" style="height: 400px;overflow:auto;">
+            <ul class="list-group">
+              <li class="list-group-item" ng-repeat="message in chat.message | reverse"><b>{{message.from}} :</b> {{message.message}}</li>
+            </ul>
+          </div>
+          <div class="box-footer">
+            <div class="row">
+              <div class="col-sm-12">
+                <textarea class="form-control" ng-model="message" ng-click="updateRead(chat)" ng-enter="updateChat(message,this)"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="box box-primary" ng-if="!isChat">
+          <div class="box-header">
+          </div>
+          <div class="box-body" style="min-height: 400px;text-align:center;">
+            <h4>Select any user to start the conversation</h4>
+          </div>
+        </div>
+    	</div>
+    </section>
+</div>

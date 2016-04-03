@@ -1,0 +1,23 @@
+<div class="box box-primary">
+  <div class="box-header with-border">
+    <h3 class="box-title">Compose New Message</h3>
+  </div><!-- /.box-header -->
+  <div class="box-body">
+    <div class="form-group">
+      <input class="form-control" placeholder="To:" ng-model="mail.to_email">
+    </div>
+    <div class="form-group">
+      <input class="form-control" placeholder="Subject:" ng-model="mail.subject">
+    </div>
+    <div class="form-group">
+      <wysiwyg textarea-id="question" textarea-class="form-control"  textarea-height="180px" textarea-name="textareaQuestion" textarea-required ng-model="mail.body" enable-bootstrap-title="true"></wysiwyg>
+    </div>
+  </div><!-- /.box-body -->
+  <div class="box-footer">
+    <div class="pull-right">
+      <button class="btn btn-default" ng-if="mail.draft != 'true'" ng-click="draftMail()"><i class="fa fa-pencil"></i> Draft</button>
+      <button type="submit" class="btn btn-primary" ng-click="sendMail()"><i class="fa fa-envelope-o"></i> Send</button>
+    </div>
+    <button class="btn btn-default" ng-click="cancelMail()"><i class="fa fa-times"></i> Discard</button>
+  </div><!-- /.box-footer -->
+</div><!-- /. box -->

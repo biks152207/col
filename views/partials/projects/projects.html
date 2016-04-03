@@ -1,0 +1,205 @@
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <h1>
+      Projects
+    </h1>
+    <ol class="breadcrumb">
+      <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+      <li class="active">Projects</li>
+    </ol>
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="col-md-3" ng-if="!showProject">
+      <div class="box box-solid">
+        <div class="box-header with-border">
+          <h3 class="box-title">Add Project</h3>
+        </div>
+        <div class="box-body">
+          <input type="text" ng-model="currentProject.title" class="form-control" placeholder="Enter name of the project" required/>
+        </div>
+      </div>
+      <div class="box box-solid">
+        <div class="box-header with-border">
+          <h3 class="box-title">Start Date</h3>
+        </div>
+        <div class="box-body">
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fa fa-clock-o"></i>
+            </div>
+            <input type="date" ng-model="currentProject.start" class="form-control active" style="width:73%;" id="reservationtime" required>
+          </div>
+        </div>
+      </div>
+      <div class="box box-solid">
+        <div class="box-header with-border">
+          <h3 class="box-title">Deadline</h3>
+        </div>
+        <div class="box-body">
+          <div class="input-group">
+            <div class="input-group-addon">
+              <i class="fa fa-clock-o"></i>
+            </div>
+            <input type="date" ng-model="currentProject.end" class="form-control active" style="width:73%;" id="reservationtime">
+          </div>
+        </div>
+      </div>
+      <div class="box box-solid">
+        <div class="box-header with-border">
+          <h3 class="box-title">Label</h3>
+        </div>
+        <div class="box-body">
+          <ul class="fc-color-picker" id="color-chooser">
+            <li ng-click="currentProject.color='blue'"><a class="text-blue"><i class="fa fa-square"></i></a></li>
+            <li ng-click="currentProject.color='teal'"><a class="text-teal"><i class="fa fa-square"></i></a></li>
+            <li ng-click="currentProject.color='yellow'"><a class="text-yellow"><i class="fa fa-square"></i></a></li>
+            <li ng-click="currentProject.color='orange'"><a class="text-orange"><i class="fa fa-square"></i></a></li>
+            <li ng-click="currentProject.color='green'"><a class="text-green"><i class="fa fa-square"></i></a></li>
+            <li ng-click="currentProject.color='red'"><a class="text-red"><i class="fa fa-square"></i></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="box box-solid">
+        <div class="box-header with-border">
+          <h3 class="box-title">Add project members</h3>
+        </div>
+        <div class="box-body">
+          <input type="text" class="form-control" ng-click="suggest = !suggest" ng-model="name">
+          <div style="max-height:200px;overflow:auto;" ng-if="suggest">
+            <ul class="list-group">
+              <li class="list-group-item" ng-if="member._id != config.userid" ng-repeat="member in members | filter:name">{{member.name}} <span class="fa fa-plus-circle pull-right" ng-click="addMember(member);suggest = !suggest;"></span></li>
+            </ul>
+          </div>
+          <ul class="list-group" ng-if="currentProject.members" style="margin-top:20px;">
+            <li class="list-group-item"  ng-repeat="member in currentProject.members">{{member.name}}<span class="fa fa-minus-circle pull-right" ng-click="removeMember(member)"></span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="box box-solid" >
+        <div class="box-header with-border">
+          <h3 class="box-title">Sub-Tasks</h3>
+        </div>
+        <div class="box-body">
+          <div class="row">
+          <div class="col-md-8">
+          <input type="text" class="form-control" ng-model="addtask" />
+          </div>
+          <div class="col-md-3">
+          <button type="button" ng-click="addProjectTask(addtask)" class="btn btn-primary" >Add</button>
+          </div>
+          </div>
+          <div ng-if="currentProjectTasks" >
+            <span ng-repeat="task in currentProjectTasks">
+          <label for="task-{{$index}}"><input type="checkbox"  id="task-{{$index}}"   value="{{task.status}}"  ng-click="updateTaskStatus($index)" ng-model="t" ng-checked="task.status" >
+           {{task.title}}</label>
+           <br>
+           </span>
+           
+          </div>
+        </div>
+      </div>
+      <div class="box box-solid">
+        <div class="box-body">
+          <button id="add-new-event" type="submit" class="btn btn-primary btn-flat btn-block" style="border-color: rgb(0, 115, 183);" ng-click="addProject()">Add</button>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3" ng-if="showProject">
+      <div class="box box-solid">
+        <div class="box-header with-border">
+          <!--h3 class="box-title">Name of the Event</h3-->
+          <input type="text" class="form-control" ng-model="currentProject.title" />
+        </div>
+      </div>
+      <div class="box box-solid">
+        <div class="box-header with-border">
+          <h3 class="box-title">Label</h3>
+        </div>
+        <div class="box-body">
+          <ul class="fc-color-picker" id="color-chooser">
+            <li ng-click="currentProject.color='blue'"><a class="text-blue"><i class="fa fa-square"></i></a></li>
+            <li ng-click="currentProject.color='teal'"><a class="text-teal"><i class="fa fa-square"></i></a></li>
+            <li ng-click="currentProject.color='yellow'"><a class="text-yellow"><i class="fa fa-square"></i></a></li>
+            <li ng-click="currentProject.color='orange'"><a class="text-orange"><i class="fa fa-square"></i></a></li>
+            <li ng-click="currentProject.color='green'"><a class="text-green"><i class="fa fa-square"></i></a></li>
+            <li ng-click="currentProject.color='red'"><a class="text-red"><i class="fa fa-square"></i></a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="box box-solid">
+        <div class="box-header with-border">
+          <h3 class="box-title">Project Members</h3>
+        </div>
+        <div class="box-body">
+          <input type="text" class="form-control" ng-click="suggest = !suggest" ng-model="name">
+          <div style="max-height:200px;overflow:auto;" ng-if="suggest">
+            <ul class="list-group">
+            </ul>
+          </div>
+          <ul class="list-group" ng-if="currentProject.members" style="margin-top:20px;">
+            <li class="list-group-item"  ng-repeat="member in currentProject.members">{{member.name}}<span class="fa fa-minus-circle pull-right" ng-click="removeMember(member)"></span></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="box box-solid" >
+        <div class="box-header with-border">
+          <h3 class="box-title">Sub-Tasks</h3>
+        </div>
+        <div class="box-body">
+          <div class="row">
+          <div class="col-md-8">
+          <input type="text" class="form-control" ng-model="addtask" />
+          </div>
+          <div class="col-md-3">
+          <button type="button" ng-click="addProjectTask(addtask)" class="btn btn-primary" >Add</button>
+          </div>
+          </div>
+          <div ng-if="currentProjectTasks" >
+            <span ng-repeat="task in currentProjectTasks">
+          <label for="task-{{$index}}"><input type="checkbox"  id="task-{{$index}}"   value="{{task.status}}"  ng-click="updateTaskStatus($index)" ng-model="t" ng-checked="task.status" >
+           {{task.title}}</label> <span class="fa fa-trash pull-right" ng-click="removeProjectTask($index)"></span>
+           <br>
+           </span>
+           
+          </div>
+        </div>
+      </div>
+      <div class="box box-solid">
+        <div class="box-body">
+        <button class="btn btn-success" type="button" ng-click="downloadFile()">Download File</button>
+        </div>
+      </div>
+      <div class="box box-solid">
+        <div class="box-body">
+          <button id="add-new-event" type="button" class="btn btn-success btn-flat" style="border-color: rgb(0, 115, 183);" ng-click="cancelProject()">Cancel</button>
+          <button id="add-new-event" type="button" class="btn btn-primary btn-flat" style="border-color: rgb(0, 115, 183);" ng-click="updateProject(currentProject)">Update</button>
+          <button id="add-new-event" type="button" class="btn btn-danger btn-flat" style="border-color: rgb(0, 115, 183);" ng-click="deleteProject(currentProject)">Delete</button>
+        </div>
+      </div>
+    </div>
+    <!--div ui-calendar="uiConfig.calendar" class="calendar col-md-9" style="background:white;" ng-model="eventSources"></div--> 
+    <div class="col-md-4">
+    <table class="table table-hover table-striped">
+      <tr>
+        <th>&nbsp;</th>
+        <th>Title</th>
+        <th>Starts on</th>
+        <th>Deadline</th>
+      </tr>
+
+  <tr ng-repeat="project in projects" ng-click="alertOnProjectClick(project);" >
+    <td style="background:{{project.color}}" >&nbsp;</td>
+    <td >{{ project.title }}</td>
+    <td>{{project.start  | date:"MM/dd/yyyy"}}</td>
+    <td>{{project.end | date:"MM/dd/yyyy"}}</td>
+  </tr>
+
+</table>
+    </div>
+    <div id="fpeditor" class="col-md-5" style="height:500px"></div>
+  </section><!-- /.content -->
+</div><!-- /.content-wrapper -->

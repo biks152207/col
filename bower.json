@@ -1,0 +1,29 @@
+{
+  "name": "uomcollab",
+  "version": "0.0.0",
+  "authors": [
+    "surya <iamssurya@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "views/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.8",
+    "angular-sanitize": "~1.4.9",
+    "angular-socket-io": "~0.7.0",
+    "angular-ui-calendar": "~1.0.1",
+    "angular-ui-notification": "~0.1.0",
+    "angular-ui-router": "~0.2.15",
+    "angular-wysiwyg": "~1.2.4",
+    "bootstrap": "latest",
+    "restangular": "~1.5.1",
+    "satellizer": "~0.13.4",
+    "underscore": "~1.8.3"
+  }
+}

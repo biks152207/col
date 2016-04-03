@@ -1,0 +1,47 @@
+<div class="box box-primary">
+  <div class="box-header with-border">
+    <h3 class="box-title">Inbox</h3>
+  </div><!-- /.box-header -->
+  <div class="box-body no-padding"  ng-if="filtered.length > 0">
+    <div class="mailbox-controls">
+      <!-- Check all button -->
+      <div class="btn-group">
+      </div><!-- /.btn-group -->
+      <div class="pull-right">
+        {{filtered.length}}
+      </div>
+    </div>
+    <div class="table-responsive mailbox-messages">
+    <style>
+    .highlight{
+      font-weight: bolder !important;
+    }
+    </style>
+      <table class="table table-hover table-striped" >
+        <tbody>
+          <tr ng-repeat="mail in filtered | orderBy:'-time'" ng-class="{ 'highlight': !mail.read }">
+            <td class="mailbox-name"><a ng-click="readMail(mail)" style="text-transform:capitalize;">{{mail.from_name}}</a></td>
+            <td class="mailbox-subject" style="width:30%;"><b style="text-transform:capitalize;" ng-if="!mail.read">{{mail.subject}}</b><span ng-if="mail.read">{{mail.subject}}</span></td>
+            <td class="mailbox-label">
+              <select ng-model="mail.label" class="form-control input-sm" ng-change="updateMail(mail)">
+                <option>Important</option>
+                <option>Promotions</option>
+                <option>Social</option>
+              </select>
+            </td>
+            <td class="mailbox-date">{{mail.time | date:'dd/MM/yyyy @ h:mma'}}</td>
+            <td><button class="btn btn-default btn-sm"><i class="fa fa-trash-o" ng-click="trashMail(mail)"></i></button></td>
+            <td><button class="btn btn-default btn-sm" ng-click="replyMail(mail)"><i class="fa fa-reply"></i></button></td>
+            <td><button class="btn btn-default btn-sm" ng-click="forwardMail(mail)"><i class="fa fa-share"></i></button></td>
+          </tr>
+        </tbody>
+      </table><!-- /.table -->
+    </div><!-- /.mail-box-messages -->
+  </div><!-- /.box-body -->
+  <div class="box-body no-padding" ng-if="filtered.length < 1" style="text-align:center;">
+    <h5>No Emails present at this time</h5>
+  </div>
+  <div class="box-footer no-padding">
+    
+  </div>
+</div>
