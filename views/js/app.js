@@ -7,6 +7,7 @@ angular.module('uomcollab',[
 	'btford.socket-io',
 	'wysiwyg.module',
 	'ngSanitize',
+	'angularMoment',
 	'ui-notification'
 ]).config([
 	'$stateProvider',
@@ -32,7 +33,14 @@ angular.module('uomcollab',[
   handler.setRestangularFields({ id: '_id' });
   handler.setBaseUrl('api/');
   return handler;
-}).factory('mySocket', function (socketFactory) {
+}).factory('SearchRestangular',function(Restangular){
+	var handler = Restangular.withConfig(function () {
+  });
+  handler.setRestangularFields({ id: '_id' });
+  handler.setBaseUrl('search/');
+  return handler;
+})
+.factory('mySocket', function (socketFactory) {
 	return socketFactory();
 }).filter('reverse', function() {
   return function(items) {

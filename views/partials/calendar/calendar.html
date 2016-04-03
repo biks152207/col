@@ -32,6 +32,8 @@
             </div>
             <input type="datetime-local" ng-model="currentEvent.start" class="form-control active" style="width:73%;" id="reservationtime" required>
           </div>
+          <br />
+          <button ng-if="currentEvent.start && !currentEvent.end" ng-click="checkAvailableMembers(currentEvent.start)" class="btn btn-sm btn-primary btn-block">Check Available Members</button>
         </div>
       </div>
       <div class="box box-solid">
@@ -45,6 +47,8 @@
             </div>
             <input type="datetime-local" ng-model="currentEvent.end" class="form-control active" style="width:73%;" id="reservationtime">
           </div>
+          <br />
+          <button ng-if="currentEvent.start && currentEvent.end" ng-click="checkAvailableMembers(currentEvent.start,currentEvent.end)" class="btn btn-sm btn-primary btn-block">Check Available Members</button>
         </div>
       </div>
       <div class="box box-solid">
@@ -62,6 +66,11 @@
           </ul>
         </div>
       </div>
+      <div class="box box-solid" ng-if="membersBusy.length > 0">
+        <div class="box-body">
+          {{membersBusy}}
+        </div>
+      </div>
       <div class="box box-solid">
         <div class="box-header with-border">
           <h3 class="box-title">Invite Members</h3>
@@ -70,7 +79,7 @@
           <input type="text" class="form-control" ng-click="suggest = !suggest" ng-model="name">
           <div style="max-height:200px;overflow:auto;" ng-if="suggest">
             <ul class="list-group">
-              <li class="list-group-item" ng-if="member._id != config.userid" ng-repeat="member in members | filter:name">{{member.name}} <span class="fa fa-plus-circle pull-right" ng-click="addMember(member);suggest = !suggest;"></span></li>
+              <li class="list-group-item" ng-if="member._id != config.userid" ng-repeat="member in members | filter:name">{{member.name}}<i class="badge" ng-class="{hidden: membersBusy.indexOf(member.username) == -1}">Busy</i><span class="fa fa-plus-circle pull-right" ng-class="{hidden: membersBusy.indexOf(member.username) > -1}" ng-click="addMember(member);suggest = !suggest;"></span></li>
             </ul>
           </div>
           <ul class="list-group" ng-if="currentEvent.members" style="margin-top:20px;">
@@ -130,7 +139,7 @@
         </div>
       </div>
     </div>
-    <div ui-calendar="uiConfig.calendar" class="calendar col-md-9" style="background:white;" ng-model="eventSources"></div> 
-    
+    <div ui-calendar="uiConfig.calendar" class="calendar col-md-9" style="background:white;" ng-model="eventSources"></div>
+
   </section><!-- /.content -->
 </div><!-- /.content-wrapper -->

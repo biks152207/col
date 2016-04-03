@@ -4,25 +4,28 @@ angular.module('uomcollab').controller('CalendarController',[
 	'$scope',
 	'$http',
 	'APIRestangular',
+	'SearchRestangular',
 	'$compile',
 	'uiCalendarConfig',
 	'$filter',
 	'config',
 	'mySocket',
-	function($scope,$http,APIRestangular,$compile,uiCalendarConfig,$filter,config,mySocket){
+	'moment',
+	function($scope,$http,APIRestangular,SearchRestangular,$compile,uiCalendarConfig,$filter,config,mySocket,moment){
 		console.log('calendar controller');
 		$scope.currentEvent = {};
 		$scope.config = config;
 		$scope.members = {};
 		$scope.events = [];
-		
+		$scope.membersBusy = [];
+
 		var date = new Date();
 	    var d = date.getDate();
 	    var m = date.getMonth();
 	    var y = date.getFullYear();
 		// Rest call for Members
 
-		
+
 		APIRestangular.all('users').get('').then(function(response){
 			$scope.members = response;
 		});
@@ -34,11 +37,10 @@ angular.module('uomcollab').controller('CalendarController',[
 				$scope.events.push(response[i]);
 			}
 		});
-		
+
 
 	    /* alert on eventClick */
 	    $scope.alertOnEventClick = function( date, jsEvent, view){
-	    	console.log(date);
 	    	$scope.editEvent(date);
 	    };
 	    $scope.editEvent = function(date){
@@ -52,7 +54,7 @@ angular.module('uomcollab').controller('CalendarController',[
 	       console.log(event._id);
 	       var startChanged = event.start.format();
 	       APIRestangular.all('events').get(event._id).then(function(response){
-	       		console.log(response);	
+	       		console.log(response);
 	       		response.start = startChanged;
 	       		response.put().then(function(resp){
 	       			console.log(resp);
@@ -72,7 +74,7 @@ angular.module('uomcollab').controller('CalendarController',[
 	       		})
 	       });
 	    };
-	    
+
 	    $scope.fetchId = function (resp) {
 	      var headers = resp.headers();
 	      if (headers.location) {
@@ -84,7 +86,6 @@ angular.module('uomcollab').controller('CalendarController',[
 	    };
 	    /* add custom event*/
 	    $scope.addEvent = function() {
-	    
 		    $scope.currentEvent.username = config.username;
 		    $scope.currentEvent.owner_id = config.userid;
 		    $scope.currentEvent.stick = 'true';
@@ -144,7 +145,7 @@ angular.module('uomcollab').controller('CalendarController',[
 		}
 		$scope.deleteEvent = function(events){
 			console.log(events);
-			
+
 			events.remove().then(function(response){
 				console.log(response);
 				var index;
@@ -181,7 +182,7 @@ angular.module('uomcollab').controller('CalendarController',[
 	      console.log('change view');
 	    };*/
 	     /* Render Tooltip *
-	    $scope.eventRender = function( event, element, view ) { 
+	    $scope.eventRender = function( event, element, view ) {
 	        element.attr({'tooltip': event.title,
 	                     'tooltip-append-to-body': true});
 	        $compile(element)($scope);
@@ -203,7 +204,7 @@ angular.module('uomcollab').controller('CalendarController',[
 	      }
 	    };
 
-	    
+
 	    /* event sources array*/
 	    $scope.eventSources = [$scope.events];
 
@@ -231,6 +232,93 @@ angular.module('uomcollab').controller('CalendarController',[
 	    	$scope.currentEvent.members.splice(index,1);
 	    	console.log(index);
 	    	console.log($scope.currentEvent);
+	    }
+/*
+	    $scope.checkAvailableMembers = function(start,end){
+	    	console.log(start);
+	    	console.log($scope.members);
+	    	$scope.availableMembers = {};
+	    	/*
+	    	APIRestangular.all('getavailableusers').getList({'date':date}).then(function(response){
+	    		console.log(response);
+	    	})
+	    	SearchRestangular.all('events').getList({'start':start,'end':end}).then(function(response){
+	    		console.log(response);
+	    	})
+	    	*
+
+	    	for(var i=0;i<$scope.members.length;i++){
+	    		SearchRestangular.all('checkAvailability').getList({'start':start,'end':end,'username':$scope.members[i].username}).then(function(response){
+	    			console.log(response);
+	    		})
+	    	}
+	    }
+	    */
+	    $scope.checkAvailableMembers = function(start,end){
+	    	$scope.membersBusy = [];
+	    	if(!end){
+	    		for(var i=0;i<$scope.members.length;i++){
+		    		APIRestangular.all('events').getList({'username':$scope.members[i].username}).then(function(response){
+		    			console.log(response);
+		    			for(var j=0;j<response.length;j++){
+		    				// check if start state matches the start
+		    				moment(response[j].start).utc().format();
+		    				moment(start);
+		    				if(response[j].end){
+		    					moment(response[j].end).utc().format();
+		    					if(moment(start).isSame(response[j].end,'day') || moment(start).isBetween(response[j].start,response[j].end,'day')){
+		    						if($scope.membersBusy.indexOf(response[j].username) == -1){
+		    							$scope.membersBusy.push(response[j].username);
+		    						}
+		    					}
+		    				}else{
+		    					if(moment(start).isSame(response[j].start,'day')){
+		    						if($scope.membersBusy.indexOf(response[j].username) == -1){
+		    							$scope.membersBusy.push(response[j].username);
+		    						}
+		    					}
+		    				}
+		    			}
+		    		})
+		    	}
+	    	}else{
+	    		for(var i=0;i<$scope.members.length;i++){
+	    			APIRestangular.all('events').getList({'username':$scope.members[i].username}).then(function(response){
+	    				for(var j=0;j<response.length;j++){
+	    					moment(response[j].start).utc().format();
+		    				moment(start);
+		    				moment(end);
+		    				if(response[j].end){
+		    					moment(response[j].end).utc().format();
+		    					// check start date
+		    					if(moment(start).isSame(response[j].end,'day') || moment(start).isBetween(response[j].start,response[j].end,'day')){
+		    						if($scope.membersBusy.indexOf(response[j].username) == -1){
+		    							$scope.membersBusy.push(response[j].username);
+		    						}
+		    					}
+		    					// check end date
+		    					if(moment(end).isSame(response[j].end,'day') || moment(end).isBetween(response[j].start,response[j].end,'day')){
+		    						if($scope.membersBusy.indexOf(response[j].username) == -1){
+		    							$scope.membersBusy.push(response[j].username);
+		    						}
+		    					}
+		    				}else{
+		    					if(moment(start).isSame(response[j].start,'day')){
+		    						if($scope.membersBusy.indexOf(response[j].username) == -1){
+		    							$scope.membersBusy.push(response[j].username);
+		    						}
+		    					}
+		    					if(moment(end).isSame(response[j].start,'day')){
+		    						if($scope.membersBusy.indexOf(response[j].username) == -1){
+		    							$scope.membersBusy.push(response[j].username);
+		    						}
+		    					}
+		    				}
+	    				}
+	    			})
+	    		}
+	    	}
+
 	    }
 	}
 ]);

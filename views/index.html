@@ -21,19 +21,19 @@
     <link rel="stylesheet" href="<%=basePath%>plugins/iCheck/flat/blue.css">
     <!-- Morris chart -->
     <link rel="stylesheet" href="<%=basePath%>plugins/morris/morris.css">
-    
+
     <!-- Date Picker -->
     <link rel="stylesheet" href="<%=basePath%>plugins/datepicker/datepicker3.css">
     <!-- Daterange picker -->
     <link rel="stylesheet" href="<%=basePath%>plugins/daterangepicker/daterangepicker-bs3.css">
-    
+
     <!-- libraries -->
     <link rel="stylesheet" href="<%=basePath%>lib/fullcalendar/dist/fullcalendar.css"/>
     <link rel="stylesheet" href="<%=basePath%>lib/angular-bootstrap-colorpicker/css/colorpicker.css">
     <link rel="stylesheet" href="<%=basePath%>lib/angular-ui-notification/dist/angular-ui-notification.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.2.0/codemirror.css"/>
     <link rel="stylesheet" href="<%=basePath%>lib/firepad/dist/firepad.css">
-    
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -94,7 +94,7 @@
                       <li ng-repeat="notification in notifications | orderBy:'-time'" >
                         <a href="#">
                           <i class="fa fa-users text-red"></i> {{notification.type}} request from {{notification.from_name}}
-                          <span class="pull-right"> 
+                          <span class="pull-right">
                             <span class="fa fa-check-circle" style="padding-left:5px;" ng-click="acceptInvitation(notification);$event.stopPropagation()"></span>
                             <span class="fa fa-times-circle" style="padding-left:5px;" ng-click="rejectInvitation(notification)"></span>
                           </span>
@@ -105,7 +105,7 @@
                   <li class="footer"><a href="#">View all</a></li>
                 </ul>
               </li>
-              
+
               <!-- User Account: style can be found in dropdown.less -->
               <li class="dropdown user user-menu">
                 <a class="dropdown-toggle" data-toggle="dropdown">
@@ -208,7 +208,7 @@
       <ui-view></ui-view>
 
       <!-- Control Sidebar -->
-      
+
     </div><!-- ./wrapper -->
 
     <!-- jQuery 2.1.4 -->
@@ -226,7 +226,7 @@
     <script src="<%=basePath%>plugins/morris/morris.min.js"></script>
     <!-- Sparkline -->
     <script src="<%=basePath%>plugins/sparkline/jquery.sparkline.min.js"></script>
-   
+
     <!-- daterangepicker -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
     <script src="<%=basePath%>plugins/daterangepicker/daterangepicker.js"></script>
@@ -247,7 +247,7 @@
     <script type="text/javascript" src="<%=basePath%>lib/firebase/firebase.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.2.0/codemirror.js"></script>
     <script type="text/javascript" src="<%=basePath%>lib/firepad/dist/firepad.js"></script>
-    
+
     <script type="text/javascript" src="<%=basePath%>lib/moment/min/moment.min.js"></script>
     <script type="text/javascript" src="<%=basePath%>lib/angular-ui-calendar/src/calendar.js"></script>
     <script src="<%=basePath%>lib/fullcalendar/dist/fullcalendar.js"></script>
@@ -259,6 +259,8 @@
     <script type="text/javascript" src="<%=basePath%>lib/angular-wysiwyg/dist/angular-wysiwyg.js"></script>
     <script type="text/javascript" src="<%=basePath%>lib/angular-sanitize/angular-sanitize.js"></script>
     <script type="text/javascript" src="<%=basePath%>lib/angular-ui-notification/dist/angular-ui-notification.js"></script>
+    <script src="<%=basePath%>lib/moment/moment.js"></script>
+    <script src="<%=basePath%>lib/angular-moment/angular-moment.js"></script>
     <!-- Local Dependencies -->
     <script src="<%=basePath%>js/app.js"></script>
     <script src="<%=basePath%>partials/dashboard/DashboardController.js"></script>
@@ -271,7 +273,7 @@
     <!-- AdminLTE App -->
     <script src="<%=basePath%>dist/js/app.min.js"></script>
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-    
+
     <!-- AdminLTE for demo purposes -->
     <script src="<%=basePath%>dist/js/demo.js"></script>
     <script>
